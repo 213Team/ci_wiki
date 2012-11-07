@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cn" lang="cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>文件辅助函数 - CodeIgniter 中文手册</title>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+<link rel="search" href="http://codeigniter.org.cn/CodeIgniterSearch.xml" type="application/opensearchdescription+xml" title="CodeIgniter 搜索"/>
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+<meta name="robots" content="all" />
+<meta name="author" content="ExpressionEngine Dev Team" />
+<meta name="description" content="CodeIgniter 中文手册, CodeIgniter 用户指南, CodeIgniter User Guide, Wiki 文档" />
+</head>
+<body>
+<!-- START NAVIGATION -->
+<div id="nav">
+  <div id="nav_inner">
+    <script type="text/javascript">create_menu('../');</script>
+  </div>
+</div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="切换目录" alt="切换目录" /></a></div>
+<div id="masthead">
+  <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <tr>
+      <td width="350"><h1>CodeIgniter 用户指南 版本 1.6.3</h1></td>
+      <td id="breadcrumb_right"><a href="../toc.html">目录页</a></td>
+    </tr>
+  </table>
+</div>
+<!-- END NAVIGATION -->
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+  <tr>
+    <td id="breadcrumb">
+		<a href="http://codeigniter.org.cn/" target="_blank">CodeIgniter 中国首页</a>&nbsp;&#8250;&nbsp;
+<a href="../index.html">用户指南首页</a>&nbsp;&#8250;&nbsp;<a href="index.html">辅助函数</a>&nbsp;&#8250;&nbsp;文件辅助函数	</td>
+    <td id="searchbox">
+		<form method="get" action="http://www.google.com/search" target="google_window">
+		<input type="hidden" name="client" value="pub-0176846097796333"></input>
+		<input type="hidden" name="forid" value="1"></input>
+		<input type="hidden" name="ie" value="UTF-8"></input>
+		<input type="hidden" name="oe" value="UTF-8"></input>
+        <input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.org.cn/user_guide/" />
+        搜索用户指南&nbsp;
+        <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />
+        &nbsp;
+        <input type="submit" class="submit" name="sa" value="Go" />
+      </form>
+	</td>
+  </tr>
+</table>
+<!-- END BREADCRUMB -->
+<!--<br clear="all" />-->
+<!-- START CONTENT -->
+<div id="content">
+<h1>文件辅助函数</h1>
+
+<p>文件辅助函数文件包含若干对文件进行操作的函数。</p>
+
+
+<h2>加载</h2>
+
+<p>使用以下代码：</p>
+
+<code>$this-&gt;load-&gt;helper('file');</code>
+
+<p>加载后可用以下函数：</p>
+
+<h2>read_file&#40;'<var>path</var>'&#41;</h2>
+
+<p>返回路径为path的文件内容。例：</p>
+
+<code>$string = read_file&#40;'./path/to/file.php'&#41;;</code>
+
+<p>可以是相对或者绝对的服务器的路径。如果函数执行失败则返回 FALSE(boolean类型)。</p>
+
+<p class="important"><strong>提示：</strong> 这里的路径是相对于该站点的index.php所在的路径，而不是当前所在的控制器或视图文件的路径。这是因为CodeIgniter使用的前端控制器(front controller)所以，所有的路径永远都是相对于index.php所在路径。</p>
+
+<p>如果你的服务器打开了open_basedir限制，此函数能过以上代码的调用可以无法正常工作。</p>
+
+<h2>write_file&#40;'<var>path</var>', <kbd>$data</kbd>&#41;</h2>
+
+<p>写进数据到path所指向文件。如果文件不存在则创建之。例：</p>
+
+<code>
+$data = 'Some file data';<br />
+<br />
+if ( ! write_file&#40;'./path/to/file.php', $data&#41;)<br />
+&#123;<br />
+&nbsp;&nbsp;&nbsp;&nbsp; echo 'Unable to write the file';<br />
+&#125;<br />
+
+else<br />
+&#123;<br />
+&nbsp;&nbsp;&nbsp;&nbsp; echo 'File written!';<br />
+&#125;</code>
+
+<p>你可以通过可选的第三个参数来设置文件的读写属性：</p>
+
+<code>write_file&#40;'./path/to/file.php', $data, <var>'r+'</var>&#41;;</code>
+
+<p>默认读写属性是 <kbd>wb</kbd>。更多关于文件读写属性参数的内容请参考：<a href="http://php.net/fopen">PHP user guide</a>。</p>
+
+<p>注意：要使用此函数写进数据，当前用户对此文件应该是“可写”的，如果该文件不存在则该用户应该对包含该文件的目录有写权限。(即*nux系统下的666,777等)。</p>
+
+<p class="important"><strong>提示：</strong> 这里的路径是相对于该站点的index.php所在的路径，而不是当前所在的控制器或视图文件的路径。这是因为CodeIgniter使用的前端控制器(front controller)所以，所有的路径永远都是相对于index.php所在路径。</p>
+
+
+<h2>delete_files('<var>path</var>')</h2>
+
+<p>删除所有包含于path下的文件。例：</p>
+<code>delete_files('./path/to/directory/');</code>
+
+<p>如果第二个参数设为 <kbd>true</kbd>, 则所有在path下的文件夹也会被删除掉。例：</p>
+
+<code>delete_files('./path/to/directory/', TRUE);</code>
+
+<p class="important"><strong>提示：</strong> 要被删除的文件必须是当前系统用户所有或者是当前用户对之具有写权限。</p>
+
+
+<h2>get_filenames('<var>path/to/directory/</var>')</h2>
+
+<p>获取path/to/directory目录下所有文件名组成的数组。如果需要文件名中有其完整路径则可以设置可选的第二个参数为TRUE。</p>
+
+<h2>get_dir_file_info('<var>path/to/directory/</var>')</h2>
+
+<p>Reads the specified directory and builds an array containing the filenames, filesize, dates, and permissions.  Any sub-folders contained within the specified path are read as well.</p>
+
+<h2>get_file_info('<var>path/to/file</var>', <kbd>$file_information</kbd>)</h2>
+
+<p>Given a file and path, returns the name, path, size, date modified. Second parameter allows you to explicitly declare what information you want returned; options are: name, server_path, size, date, readable, writable, executable, fileperms.  Returns FALSE if the file cannot be found.</p>
+
+<p class="important"><strong>Note:</strong> The &quot;writable&quot; uses the PHP function is_writable() which is known to have issues on the IIS webserver. Consider using fileperms instead, which returns information from PHP's fileperms() function.</p>
+<h2>get_mime_by_extension('<var>file</var>')</h2>
+
+<p>Translates a file extension into a mime type based on config/mimes.php. Returns FALSE if it can't determine the type, or open the mime config file.</p>
+<p>
+<code>$file = &quot;somefile.png&quot;;<br />
+echo $file . ' is has a mime type of ' . get_mime_by_extension($file);</code>
+</p>
+<p class="critical"><strong>Note:</strong> This is not an accurate way of determining file mime types, and is here strictly as a convenience. It should not be  used for security.</p>
+
+<h2>symbolic_permissions(<kbd>$perms</kbd>)</h2>
+
+<p>Takes numeric permissions (such as is returned by <kbd>fileperms()</kbd> and returns standard symbolic notation of file permissions.</p>
+
+<code>echo symbolic_permissions(fileperms('./index.php'));<br />
+<br />
+// -rw-r--r--</code>
+
+<h2>octal_permissions(<kbd>$perms</kbd>)</h2>
+
+<p>Takes numeric permissions (such as is returned by <kbd>fileperms()</kbd> and returns a three character octal notation of file permissions.</p>
+
+<code>echo octal_permissions(fileperms('./index.php'));<br />
+<br />
+// 644</code><p>&nbsp;</p>
+<div id="Contributors">
+翻译贡献者:
+Hex, iptton, szlinz</div>
+<div id="DocDate">最后修改: 2008-06-28 13:28:22</div>
+</div>
+<!-- END CONTENT -->
+<div id="footer">
+  <p>
+上一个主题:&nbsp;&nbsp;<a href="../helpers/directory_helper.html">目录辅助函数</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="#top">页首</a>
+&nbsp;&middot;&nbsp;&nbsp;<a href="../index.html">用户指南首页</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;下一个主题:&nbsp;&nbsp;<a href="../helpers/form_helper.html">表单辅助函数</a>  </p>
+  <p><a href="http://codeigniter.com" target="_blank">CodeIgniter</a> &nbsp;&middot;&nbsp; 版权所有 &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/" target="_blank">Ellislab, Inc.</a></p>
+  <p>中文化: <a href="http://codeigniter.org.cn" target="_blank">CodeIgniter 中国</a> &nbsp;&middot;&nbsp; 制作: Hex &nbsp;&middot;&nbsp; 生成日期: 2008-09-22 01:15</p>
+</div>
+</body>
+</html>

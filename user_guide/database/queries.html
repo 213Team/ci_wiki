@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cn" lang="cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>查询 - CodeIgniter 中文手册</title>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+<link rel="search" href="http://codeigniter.org.cn/CodeIgniterSearch.xml" type="application/opensearchdescription+xml" title="CodeIgniter 搜索"/>
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+<meta name="robots" content="all" />
+<meta name="author" content="ExpressionEngine Dev Team" />
+<meta name="description" content="CodeIgniter 中文手册, CodeIgniter 用户指南, CodeIgniter User Guide, Wiki 文档" />
+</head>
+<body>
+<!-- START NAVIGATION -->
+<div id="nav">
+  <div id="nav_inner">
+    <script type="text/javascript">create_menu('../');</script>
+  </div>
+</div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="切换目录" alt="切换目录" /></a></div>
+<div id="masthead">
+  <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <tr>
+      <td width="350"><h1>CodeIgniter 用户指南 版本 1.6.3</h1></td>
+      <td id="breadcrumb_right"><a href="../toc.html">目录页</a></td>
+    </tr>
+  </table>
+</div>
+<!-- END NAVIGATION -->
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+  <tr>
+    <td id="breadcrumb">
+		<a href="http://codeigniter.org.cn/" target="_blank">CodeIgniter 中国首页</a>&nbsp;&#8250;&nbsp;
+<a href="../index.html">用户指南首页</a>&nbsp;&#8250;&nbsp;<a href="index.html">数据库类</a>&nbsp;&#8250;&nbsp;查询	</td>
+    <td id="searchbox">
+		<form method="get" action="http://www.google.com/search" target="google_window">
+		<input type="hidden" name="client" value="pub-0176846097796333"></input>
+		<input type="hidden" name="forid" value="1"></input>
+		<input type="hidden" name="ie" value="UTF-8"></input>
+		<input type="hidden" name="oe" value="UTF-8"></input>
+        <input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.org.cn/user_guide/" />
+        搜索用户指南&nbsp;
+        <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />
+        &nbsp;
+        <input type="submit" class="submit" name="sa" value="Go" />
+      </form>
+	</td>
+  </tr>
+</table>
+<!-- END BREADCRUMB -->
+<!--<br clear="all" />-->
+<!-- START CONTENT -->
+<div id="content">
+<h1>查询</h1>
+
+<h2>$this-&gt;db-&gt;query();</h2>
+
+<p>要提交一个查询，用以下函数：</p>
+
+<code>$this-&gt;db-&gt;query('YOUR QUERY HERE');</code>
+
+<p><dfn>query()</dfn> 函数以<strong>object(对象)</strong>的形式返回一个数据库结果集. 当使用 "read" 模式来运行查询时, 你可以使用 <a href="results.html">show your results</a> 来显示查询结果; 当使用 "write\" 模式来运行查询事, 将会仅根据执行的成功或失败来返回 TRUE 或 FALSE. 当你需要将返回的结果赋值给一个自定义变量的时候, 你可以这样操作:</p>
+
+<code><var>$query</var> = $this-&gt;db-&gt;query('YOUR QUERY HERE');</code>
+
+<h2>$this-&gt;db-&gt;simple_query();</h2>
+
+<p>This is a simplified version of the <dfn>$this-&gt;db-&gt;query()</dfn> function.  It ONLY returns TRUE/FALSE on success or failure.
+It DOES NOT return a database result set, nor does it set the query timer, or compile bind data, or store your query for debugging.
+It simply lets you submit a query. Most users will rarely use this function.</p>
+
+<p>这是一个简化版本的 <dfn>$this-&gt;db-&gt;query()</dfn> 函数.  它仅返回 True(bool) 和 False(bool) 以表示查询成功与失败.
+它将不会返回查询数据集，无法设置查询计时器(设置环境变量)，无法编译绑定数据，不能够存储查询诊断信息。
+简单地说，他是一个用于提交查询的函数，对于大多数用户而言并不会使用到它。</p>
+
+<h1>手工添加数据库前缀 (Adding Database prefixes manually)</h1>
+<p>If you have configured a database prefix and would like to add it in manually for, you can use the following.</p>
+<p>如果你需要为一个数据库手工添加前缀，你可以使用以下步骤。</p>
+<p><code>$this-&gt;db-&gt;dbprefix('tablename');<br />
+// outputs prefix_tablename</code></p>
+
+<h1>保护标识符 (Protecting identifiers)</h1>
+<p>In many databases it is advisable to protect table and field names - for example with backticks in MySQL. Active Record queries are automatically protected, however if you need to manually protect an identifier you can use:</p>
+<p>在许多数据库中，保护表(table)和字段(field)的名称是可取的，例如在MySQL、Active Record的查询都是自动保护的。不管怎样，如果您需要手动保护一个标识符，您也可以使用以下：</p>
+<p><code>$this-&gt;db-&gt;protect_identifiers('table_name');</code></p>
+
+<h1>转义查询 (Escaping Queries)</h1>
+
+<p>It's a very good security practice to escape your data before submitting it into your database.
+CodeIgniter has two functions that help you do this:</p>
+<p>将数据转义以后提交到你的数据库是非常好的安全做法，CodeIgniter提供了两个函数帮助你完成这个工作。</p>
+
+<ol>
+
+<li><strong>$this-&gt;db-&gt;escape()</strong> 这个函数将会确定数据类型，以便仅对字符串类型数据进行转义。它将会自动增加单引号(single quotes)在数据的周围，所以你不能这样做：
+
+<code>$sql = "INSERT INTO table (title) VALUES(".$this-&gt;db-&gt;escape($title).")";</code></li>
+
+
+<li><strong>$this-&gt;db-&gt;escape_str()</strong>  此函数将忽略数据类型对传入数据进行转义。更多时候你将使用上面的函数而不是这个。这个函数的使用方法是：
+
+<code>$sql = "INSERT INTO table (title) VALUES('".$this-&gt;db-&gt;escape_str($title)."')";</code></li>
+</ol>
+
+
+<h1>Query Bindings</h1>
+
+
+<p>Bindings enable you to simplify your query syntax by letting the system put the queries together for you. Consider the following example:</p>
+
+<code>
+$sql = "SELECT * FROM some_table WHERE id = <var>?</var> AND status = <var>?</var> AND author = <var>?</var>";
+
+<br /><br />
+$this-&gt;db-&gt;query($sql, array(3, 'live', 'Rick'));
+</code>
+
+<p>The question marks in the query are automatically replaced with the values in the array in the second parameter of the query function.</p>
+<p class="important">The secondary benefit of using binds is that the values are automatically escaped, producing safer queries.  You don't have to remember to manually escape data; the engine does it automatically for you.</p><p>&nbsp;</p>
+<div id="Contributors">
+翻译贡献者:
+498621, Hex, szlinz, xjflyttp</div>
+<div id="DocDate">最后修改: 2008-08-07 22:18:32</div>
+</div>
+<!-- END CONTENT -->
+<div id="footer">
+  <p>
+上一个主题:&nbsp;&nbsp;<a href="../database/connecting.html">连接到你的数据库</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="#top">页首</a>
+&nbsp;&middot;&nbsp;&nbsp;<a href="../index.html">用户指南首页</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;下一个主题:&nbsp;&nbsp;<a href="../database/results.html">查询结果</a>  </p>
+  <p><a href="http://codeigniter.com" target="_blank">CodeIgniter</a> &nbsp;&middot;&nbsp; 版权所有 &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/" target="_blank">Ellislab, Inc.</a></p>
+  <p>中文化: <a href="http://codeigniter.org.cn" target="_blank">CodeIgniter 中国</a> &nbsp;&middot;&nbsp; 制作: Hex &nbsp;&middot;&nbsp; 生成日期: 2008-09-22 01:15</p>
+</div>
+</body>
+</html>

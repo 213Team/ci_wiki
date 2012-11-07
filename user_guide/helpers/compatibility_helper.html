@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cn" lang="cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>兼容性辅助函数 - CodeIgniter 中文手册</title>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+<link rel="search" href="http://codeigniter.org.cn/CodeIgniterSearch.xml" type="application/opensearchdescription+xml" title="CodeIgniter 搜索"/>
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+<meta name="robots" content="all" />
+<meta name="author" content="ExpressionEngine Dev Team" />
+<meta name="description" content="CodeIgniter 中文手册, CodeIgniter 用户指南, CodeIgniter User Guide, Wiki 文档" />
+</head>
+<body>
+<!-- START NAVIGATION -->
+<div id="nav">
+  <div id="nav_inner">
+    <script type="text/javascript">create_menu('../');</script>
+  </div>
+</div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="切换目录" alt="切换目录" /></a></div>
+<div id="masthead">
+  <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <tr>
+      <td width="350"><h1>CodeIgniter 用户指南 版本 1.6.3</h1></td>
+      <td id="breadcrumb_right"><a href="../toc.html">目录页</a></td>
+    </tr>
+  </table>
+</div>
+<!-- END NAVIGATION -->
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+  <tr>
+    <td id="breadcrumb">
+		<a href="http://codeigniter.org.cn/" target="_blank">CodeIgniter 中国首页</a>&nbsp;&#8250;&nbsp;
+<a href="../index.html">用户指南首页</a>&nbsp;&#8250;&nbsp;<a href="index.html">辅助函数</a>&nbsp;&#8250;&nbsp;兼容性辅助函数	</td>
+    <td id="searchbox">
+		<form method="get" action="http://www.google.com/search" target="google_window">
+		<input type="hidden" name="client" value="pub-0176846097796333"></input>
+		<input type="hidden" name="forid" value="1"></input>
+		<input type="hidden" name="ie" value="UTF-8"></input>
+		<input type="hidden" name="oe" value="UTF-8"></input>
+        <input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.org.cn/user_guide/" />
+        搜索用户指南&nbsp;
+        <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />
+        &nbsp;
+        <input type="submit" class="submit" name="sa" value="Go" />
+      </form>
+	</td>
+  </tr>
+</table>
+<!-- END BREADCRUMB -->
+<!--<br clear="all" />-->
+<!-- START CONTENT -->
+<div id="content">
+<h1>Compatibility Helper</h1>
+
+<p>The Compatibility Helper file contains PHP 4 implementations of some PHP 5 only native PHP functions and constants.  This can be useful
+	if you'd like to take advantage of some of these native function but your application may end up running on a PHP 4 server.
+	In these cases, it may be advantageous to <a href="../general/autoloader.html">Auto-load</a> the Compatibility Helper so you
+	do not have to load it in each controller.</p>
+
+<p class="important"><strong>Note:</strong> There are a few compatibility functions that are in CodeIgniter's native Compat.php file.
+	You may use those functions without loading this helper.  The functions are split between that file and this Helper so that only
+	functions required by the framework are included by default.  This way, whether or not you load the additional functions in this Helper
+	remains your choice.</p>
+
+	
+<h2>Loading this Helper</h2>
+
+<p>This helper is loaded using the following code:</p>
+<code>$this->load->helper('compatibility');</code>
+
+<h2>Available Constants</h2>
+<p>The following constants are available:</p>
+
+<h3>PHP_EOL</h3>
+<p>The newline character for the server's current OS, e.g. on Windows systems "\r\n", on *nix "\n".
+
+
+<h2>Available Functions</h2>
+<p>The following functions are available (see linked PHP documentation for documentation):</p>
+
+<h3><a href="http://us.php.net/manual/en/function.file-put-contents.php">file_put_contents()</a> - The fourth parameter, <var>$context</var>, is not supported.</h3>
+
+<h3><a href="http://us.php.net/manual/en/function.fputcsv.php">fputcsv()</a></h3>
+
+<h3><a href="http://us.php.net/manual/en/function.http-build-query.php">http_build_query()</a></h3>
+
+<h3><a href="http://us.php.net/manual/en/function.str-ireplace.php">str_ireplace()</a> - The fourth parameter, <var>$count</var>, is not supported, as PHP 4 would make it become required.</h3>
+
+<h3><a href="http://us.php.net/manual/en/function.stripos.php">stripos()</a></h3><p>&nbsp;</p>
+<div id="Contributors">
+翻译贡献者:
+Hex</div>
+<div id="DocDate">最后修改: 2008-05-14 14:46:02</div>
+</div>
+<!-- END CONTENT -->
+<div id="footer">
+  <p>
+上一个主题:&nbsp;&nbsp;<a href="../helpers/array_helper.html">数组辅助函数</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="#top">页首</a>
+&nbsp;&middot;&nbsp;&nbsp;<a href="../index.html">用户指南首页</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;下一个主题:&nbsp;&nbsp;<a href="../helpers/cookie_helper.html">Cookie 辅助函数</a>  </p>
+  <p><a href="http://codeigniter.com" target="_blank">CodeIgniter</a> &nbsp;&middot;&nbsp; 版权所有 &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/" target="_blank">Ellislab, Inc.</a></p>
+  <p>中文化: <a href="http://codeigniter.org.cn" target="_blank">CodeIgniter 中国</a> &nbsp;&middot;&nbsp; 制作: Hex &nbsp;&middot;&nbsp; 生成日期: 2008-09-22 01:15</p>
+</div>
+</body>
+</html>

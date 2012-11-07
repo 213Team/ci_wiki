@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cn" lang="cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>引用通告 类 - CodeIgniter 中文手册</title>
+<link rel="stylesheet" type="text/css" media="all" href="../userguide.css" />
+<link rel="search" href="http://codeigniter.org.cn/CodeIgniterSearch.xml" type="application/opensearchdescription+xml" title="CodeIgniter 搜索"/>
+<script type="text/javascript" src="../nav/nav.js"></script>
+<script type="text/javascript" src="../nav/prototype.lite.js"></script>
+<script type="text/javascript" src="../nav/moo.fx.js"></script>
+<script type="text/javascript" src="../nav/user_guide_menu.js"></script>
+<meta name="robots" content="all" />
+<meta name="author" content="ExpressionEngine Dev Team" />
+<meta name="description" content="CodeIgniter 中文手册, CodeIgniter 用户指南, CodeIgniter User Guide, Wiki 文档" />
+</head>
+<body>
+<!-- START NAVIGATION -->
+<div id="nav">
+  <div id="nav_inner">
+    <script type="text/javascript">create_menu('../');</script>
+  </div>
+</div>
+<div id="nav2"><a name="top"></a><a href="javascript:void(0);" onclick="myHeight.toggle();"><img src="../images/nav_toggle.jpg" width="153" height="44" border="0" title="切换目录" alt="切换目录" /></a></div>
+<div id="masthead">
+  <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+    <tr>
+      <td width="350"><h1>CodeIgniter 用户指南 版本 1.6.3</h1></td>
+      <td id="breadcrumb_right"><a href="../toc.html">目录页</a></td>
+    </tr>
+  </table>
+</div>
+<!-- END NAVIGATION -->
+<!-- START BREADCRUMB -->
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
+  <tr>
+    <td id="breadcrumb">
+		<a href="http://codeigniter.org.cn/" target="_blank">CodeIgniter 中国首页</a>&nbsp;&#8250;&nbsp;
+<a href="../index.html">用户指南首页</a>&nbsp;&#8250;&nbsp;<a href="index.html">类库</a>&nbsp;&#8250;&nbsp;引用通告 类	</td>
+    <td id="searchbox">
+		<form method="get" action="http://www.google.com/search" target="google_window">
+		<input type="hidden" name="client" value="pub-0176846097796333"></input>
+		<input type="hidden" name="forid" value="1"></input>
+		<input type="hidden" name="ie" value="UTF-8"></input>
+		<input type="hidden" name="oe" value="UTF-8"></input>
+        <input type="hidden" name="as_sitesearch" id="as_sitesearch" value="codeigniter.org.cn/user_guide/" />
+        搜索用户指南&nbsp;
+        <input type="text" class="input" style="width:200px;" name="q" id="q" size="31" maxlength="255" value="" />
+        &nbsp;
+        <input type="submit" class="submit" name="sa" value="Go" />
+      </form>
+	</td>
+  </tr>
+</table>
+<!-- END BREADCRUMB -->
+<!--<br clear="all" />-->
+<!-- START CONTENT -->
+<div id="content">
+<h1>引用通告类</h1>
+
+<p>这个类提供了一组函数使你能够发送和接收引用通知的数据.</p>
+
+
+<p>如果你对引用通知不太熟悉的话可以在<a href="http://en.wikipedia.org/wiki/Trackback">这里</a>查看更多的信息.</p>
+
+<h2>初始化类</h2>
+
+<p>和其它大多数类一样,Trackback 类 也是使用<dfn>$this-&gt;load-&gt;library</dfn> function:</p>
+
+<code>$this-&gt;load-&gt;library('trackback')加载;</code>
+<p>加载完毕后,Trackback 对象就能够用: <dfn>$this-&gt;trackback</dfn>方式使用.</p>
+
+
+<h2>发送 Trackbacks</h2>
+
+<p>引用通知可以从任何控制器函数中使用与示例相似的代码来发送:</p>
+
+<code>$this-&gt;load-&gt;library('trackback');<br />
+<br />
+$tb_data = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ping_url'&nbsp;&nbsp;=> 'http://example.com/trackback/456',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'url'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'http://www.my-example.com/blog/entry/123',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> 'The Title of My Entry',<br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'excerpt'&nbsp;&nbsp;&nbsp;=> 'The entry content.',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'blog_name' => 'My Blog Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'charset'&nbsp;&nbsp;&nbsp;=> 'utf-8'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+if ( ! $this-&gt;trackback-&gt;send($tb_data))<br />
+&#123;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo $this-&gt;trackback-&gt;display_errors();<br />
+
+&#125;<br />
+else<br />
+&#123;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo 'Trackback was sent!';<br />
+&#125;</code>
+
+<p>Description of array data:</p>
+
+<ul>
+<li><strong>ping_url</strong> - The URL of the site you are sending the Trackback to. You can send Trackbacks to multiple URLs by separating each URL with a comma.</li>
+
+<li><strong>url</strong> - The URL to YOUR site where the weblog entry can be seen.</li>
+<li><strong>title</strong> - The title of your weblog entry.</li>
+<li><strong>excerpt</strong> - The content of your weblog entry. Note: the Trackback class will automatically send only the first 500 characters of your entry.  It will also strip all HTML.</li>
+<li><strong>blog_name</strong> - The name of your weblog.</li>
+<li><strong>charset</strong> - The character encoding your weblog is written in.  If omitted, UTF-8 will be used.</li>
+
+</ul>
+
+<p>The Trackback sending function returns TRUE/FALSE (boolean) on success or failure.  If it fails, you can retrieve the error message using:</p>
+
+<code>$this-&gt;trackback-&gt;display_errors();</code>
+
+
+<h2>Receiving Trackbacks</h2>
+
+<p>Before you can receive Trackbacks you must create a weblog.  If you don't have a blog yet there's no point in continuing.</p>
+
+<p>Receiving Trackbacks is a little more complex than sending them, only because you will need a database table in which to store them,
+and you will need to validate the incoming trackback data.  You are encouraged to implement a thorough validation process to
+guard against spam and duplicate data.  You may also want to limit the number of Trackbacks you allow from a particular IP within
+a given span of time to further curtail spam.  The process of receiving a Trackback is quite simple;
+the validation is what takes most of the effort.</p>
+
+<h2>Your Ping URL</h2>
+
+<p>In order to accept Trackbacks you must display a Trackback URL next to each one of your weblog entries.  This will be the URL
+that people will use to send you Trackbacks (we will refer to this as your "Ping URL").</p>
+
+<p>Your Ping URL must point to a controller function where your Trackback receiving code is located, and the URL
+must contain the ID number for each particular entry, so that when the Trackback is received you'll be
+able to associate it with a particular entry.</p>
+
+<p>For example, if your controller class is called <dfn>Trackback</dfn>, and the receiving function is called <dfn>receive</dfn>, your
+Ping URLs will look something like this:</p>
+
+<code>http://example.com/index.php/trackback/receive/<samp>entry_id</samp></code>
+
+<p>Where <samp>entry_id</samp> represents the individual ID number for each of your entries.</p>
+
+
+<h2>Creating a Trackback Table</h2>
+
+<p>Before you can receive Trackbacks you must create a table in which to store them.  Here is a basic prototype for such a table:</p>
+
+&lt;textarea class="textarea" style="width:100%" cols="50" rows="13"&gt;
+CREATE TABLE trackbacks (
+ tb_id int(10) unsigned NOT NULL auto_increment,
+ entry_id int(10) unsigned NOT NULL default 0,
+ url varchar(200) NOT NULL,
+ title varchar(100) NOT NULL,
+ excerpt text NOT NULL,
+ blog_name varchar(100) NOT NULL,
+ tb_date int(10) NOT NULL,
+ ip_address varchar(16) NOT NULL,
+ PRIMARY KEY `tb_id` (`tb_id`),
+ KEY `entry_id` (`entry_id`)
+);&lt;/textarea&gt;
+
+
+<p>The Trackback specification only requires four pieces of information to be sent in a Trackback (url, title, excerpt, blog_name),
+but to make the data more useful we've added a few more fields in the above table schema (date, IP address, etc.).</p>
+
+<h2>Processing a Trackback</h2>
+
+<p>Here is an example showing how you will receive and process a Trackback.  The following
+code is intended for use within the controller function where you expect to receive Trackbacks.</p>
+
+<code>$this-&gt;load-&gt;library('trackback');<br />
+$this-&gt;load-&gt;database();<br />
+
+<br />
+if ($this-&gt;uri-&gt;segment(3) == FALSE)<br />
+&#123;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;trackback-&gt;send_error("Unable to determine the entry ID");<br />
+&#125;<br />
+<br />
+if ( ! $this-&gt;trackback-&gt;receive())<br />
+&#123;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;trackback-&gt;send_error("The Trackback did not contain valid data");<br />
+&#125;<br />
+
+<br />
+$data = array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tb_id'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> '',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'entry_id'&nbsp;&nbsp;&nbsp;=> $this-&gt;uri-&gt;segment(3),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'url'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> $this-&gt;trackback-&gt;data('url'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'title'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> $this-&gt;trackback-&gt;data('title'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'excerpt'&nbsp;&nbsp;&nbsp;&nbsp;=> $this-&gt;trackback-&gt;data('excerpt'),<br />
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'blog_name'&nbsp;&nbsp;=> $this-&gt;trackback-&gt;data('blog_name'),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'tb_date'&nbsp;&nbsp;&nbsp;&nbsp;=> time(),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ip_address' => $this-&gt;input-&gt;ip_address()<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br />
+<br />
+$sql = $this-&gt;db-&gt;insert_string('trackbacks', $data);<br />
+$this-&gt;db-&gt;query($sql);<br />
+<br />
+$this-&gt;trackback-&gt;send_success();</code>
+
+<h4>Notes:</h4>
+
+<p>The entry ID number is expected in the third segment of your URL.  This is based on the URI example we gave earlier:</p>
+
+<code>http://example.com/index.php/trackback/receive/<samp>entry_id</samp></code>
+
+<p>Notice the entry_id is in the third URI segment, which you can retrieve using:</p>
+
+<code>$this-&gt;uri-&gt;segment(3);</code>
+
+<p>In our Trackback receiving code above, if the third segment is missing, we will issue an error.  Without a valid entry ID, there's no
+reason to continue.</p>
+
+<p>The <dfn>$this-&gt;trackback-&gt;receive()</dfn> function is simply a validation function that looks at the incoming data
+and makes sure it contains the four pieces of data that are required (url, title, excerpt, blog_name).
+It returns TRUE on success and FALSE on failure.  If it fails you will issue an error message.</p>
+
+<p>The incoming Trackback data can be retrieved using this function:</p>
+
+<code>$this-&gt;trackback-&gt;data('<var>item</var>')</code>
+
+<p>Where <var>item</var> represents one of these four pieces of info: url, title, excerpt, or blog_name</p>
+
+<p>If the Trackback data is successfully received, you will issue a success message using:</p>
+
+<code>$this-&gt;trackback-&gt;send_success();</code>
+
+<p class="important"><strong>Note:</strong> The above code contains no data validation, which you are encouraged to add.</p><p>&nbsp;</p>
+<div id="Contributors">
+翻译贡献者:
+Hex, shnwqshnwq</div>
+<div id="DocDate">最后修改: 2008-09-12 10:48:25</div>
+</div>
+<!-- END CONTENT -->
+<div id="footer">
+  <p>
+上一个主题:&nbsp;&nbsp;<a href="../libraries/sessions.html">Session 类</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="#top">页首</a>
+&nbsp;&middot;&nbsp;&nbsp;<a href="../index.html">用户指南首页</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;下一个主题:&nbsp;&nbsp;<a href="../libraries/parser.html">模板解析器类</a>  </p>
+  <p><a href="http://codeigniter.com" target="_blank">CodeIgniter</a> &nbsp;&middot;&nbsp; 版权所有 &#169; 2006-2008 &nbsp;&middot;&nbsp; <a href="http://ellislab.com/" target="_blank">Ellislab, Inc.</a></p>
+  <p>中文化: <a href="http://codeigniter.org.cn" target="_blank">CodeIgniter 中国</a> &nbsp;&middot;&nbsp; 制作: Hex &nbsp;&middot;&nbsp; 生成日期: 2008-09-22 01:15</p>
+</div>
+</body>
+</html>
