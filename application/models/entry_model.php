@@ -42,7 +42,7 @@ class Entry_model extends CI_Model {
         );
         $this->db->insert('version_ctrl', $data1);
         $data2 = array(
-            'cid' => $this->db->insert_id(),
+            'cid' => $row['id'] + 1,
             'fid' => $_POST['fid'],
             'deepth' => $_POST['fdeepth'] + 1
         );
@@ -67,12 +67,6 @@ class Entry_model extends CI_Model {
         $query = $this->db->get_where('work_for', array('eid' => $eid));
         return $query->row();
     }
-
-    function get_history($id) {
-        $query = $this->db->get_where('version_ctrl', array('entry_id' => $id));
-        return $query->result();
-    }
-
 }
 
 ?>

@@ -17,7 +17,6 @@ class One_controller extends CI_Controller {
         
 		$data['query'] = $this->Entry_model->get_entry($id);
 		$data['c_query'] = $this->Comment_model->get_comment($id);
-                $date['h_query'] = $this->Entry_model->get_history($id);
 		$row = $this->Entry_model->get_author($id);
 		if ($row) 
 			$data['author'] = $row->uname;

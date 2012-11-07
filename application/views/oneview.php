@@ -2,7 +2,6 @@
 <body>
 <?php foreach($query as $item):?>
 	<h2><?=$item->subject?></h2><br />
-       
 <i>
 	<?="Last modified on "?>
 	<?=date("D jS F Y g.iA", strtotime($item->time))?>
