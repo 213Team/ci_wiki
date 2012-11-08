@@ -1,6 +1,6 @@
 <html>
 <body>
-<h1><i>Applications</i></h1>
+<h2><i>Applications</i></h2>
 <?php $i = 1;?>
 <ul>
 <?php if(!$query):?>

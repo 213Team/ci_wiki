@@ -4,11 +4,11 @@
 <?=form_hidden('eid', $eid)?>
 <table>
 	<tr>
-		<td><strong><?="Username :"?></strong></td>
+		<td><i><?="Username :"?></i></td>
 		<td><?=form_input('uname')?></td>
 	</tr>
 	<tr>
-		<td><strong><?="Details :"?></strong></td>
+		<td><i><?="Details :"?></i></td>
 		<td><?=form_textarea('details')?></td>
 	</tr>
 	<tr>

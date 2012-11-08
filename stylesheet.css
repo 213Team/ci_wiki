@@ -27,6 +27,11 @@ hr {
 	height: 2px;
 }
 
+li {
+	line-height: 16px;
+	list-style-type:circle;
+}
+
 a:link {
 	text-decoration: none;
 	color: #000;

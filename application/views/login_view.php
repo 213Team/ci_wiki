@@ -4,11 +4,11 @@
 <?=form_open('login_controller/login')?>
 <table>
 	<tr>
-		<td><strong><?="Username :"?></strong></td>
+		<td><i><?="Username :"?></i></td>
 		<td><?=form_input('name')?></td>
 	</tr>
 	<tr>
-		<td><strong><?="Password :"?></strong></td>
+		<td><i><?="Password :"?></i></td>
 		<td><?=form_password('password')?></td>
 	</tr>
 	<tr>
