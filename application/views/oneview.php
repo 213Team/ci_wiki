@@ -3,36 +3,45 @@
         <?php echo smiley_js(); ?>
     </head>
     <body>
+        <script language="javaScript">
+            function doEcho(i){
+                document.getElementById("a").innerHTML = i;
+            }
+        </script>
         <?php foreach ($query as $item): ?>
             <h2><i><?= $item->subject ?></i></h2><br />
             <?php
-            $sql = "SELECT * FROM version_ctrl WHERE entry_id = " . $item->id . ";";
+            $sql = "SELECT * FROM version_ctrl WHERE entry_id = " . $item->id . " ORDER BY version_id;";
             $result = mysql_query($sql);
-            $row = mysql_fetch_assoc($result);
 
-
-            $percentage = "45";
-            $done = $percentage * 2;
-            $notdone = 200 - $done;
-            $pimg1 = base_url() . "pb1.jpg";
-            $pimg2 = base_url() . "pb2.jpg";
-            $pimg3 = base_url() . "pb3.jpg";
-            echo "<img src = $pimg1>";
-            for ($i = "1"; $i <= $done; $i++) {
-                echo"<img src= $pimg2>";
+            while ($row = mysql_fetch_assoc($result)) {
+                echo '<a href ="javaScript:doEcho(\'' . $row['body'] . '\')" >Version'. $row['version_id']. ' : </a>';
+                $percentage = $row['donepercent'];
+                $done = $percentage * 2;
+                $notdone = 200 - $done;
+                $pimg1 = base_url() . "pb1.jpg";
+                $pimg2 = base_url() . "pb2.jpg";
+                $pimg3 = base_url() . "pb3.jpg";
+                echo "<img src = $pimg1>";
+                for ($i = "1"; $i <= $done; $i++) {
+                    echo"<img src= $pimg2>";
+                }
+                for ($i = "1"; $i <= $notdone; $i++) {
+                    echo"<img src= $pimg3>";
+                }
+                echo"<img src=$pimg1>";
+                echo '<span style = "color:red">', $percentage, '%</span>';
+                echo "     ";
+                echo "<i>";
+                echo "(Last modified on ";
+                echo $row['dateposted'];
+                echo ")";
+                echo "</i>";
+                echo "<br /><br />";
             }
-            for ($i = "1"; $i <= $notdone; $i++) {
-                echo"<img src= $pimg3>";
-            }
-            echo"<img src=$pimg1>";
-            echo '<span style = "color:red">', $percentage, '%</span>';
-
-            echo "<br /><br />";
-            echo "<i>";
-            echo "Last modified on ";
-            echo $row['dateposted'];
-            echo "</i>";
             ?>
+            <div id="a"></div>
+            <?php echo "<br />"; ?>
             <?php if ($login_user): ?>
                 <?php if (!$author and $login_user != 'wind'): ?>
                     <strong><?= anchor('app_controller/index/' . $item->id, ' [want to edit]') ?></strong>
@@ -40,11 +49,6 @@
                     <strong><?= anchor('edit_controller/index/' . $item->id, ' [edit]') ?></strong>
                 <?php endif; ?>
             <?php endif; ?>
-
-            <?php
-            echo "<br /><br />";
-            echo $row['body'];
-            ?>
 
             <hr align=left width=45% />
 

@@ -51,14 +51,18 @@ class Entry_model extends CI_Model {
     }
 
     function update_entry() {
-        $date3 = array(
+        $sql = "SELECT * FROM version_ctrl WHERE entry_id = ".$_POST['id']." ORDER BY version_id DESC LIMIT 1;";
+        $result = mysql_query($sql);
+        $row = mysql_fetch_assoc($result);
+        
+        $data3 = array(
             'entry_id' => $_POST['id'],
-            'version_id' => $_POST['version_id'] + 1,
+            'version_id' => $row['version_id'] + 1,
             'body' => $_POST['body'],
             'dateposted' => date("Y-m-d H:i:s", time()),
             'donepercent' => $_POST['donepercent']
         );
-        $this->db->insert('version_ctrl', $date3);
+        $this->db->insert('version_ctrl', $data3);
 
         redirect('/one_controller/index/' . $_POST['id']);
     }
