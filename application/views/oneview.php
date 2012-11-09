@@ -1,45 +1,40 @@
 <html>
     <head>
+        <meta charset="utf-8" />
+        <title>jQuery UI Datepicker - Default functionality</title>
+        <?= link_tag('jquery-ui.css') ?>
+        <script src=<?= base_url() . "jquery-1.8.2.js" ?>></script>
+        <script src=<?= base_url() . "jquery-ui.js" ?>></script>
+        <link rel="stylesheet" href="/resources/demos/style.css" />
+        <script language="javaScript">
+            function doEcho(i, j, k){
+                document.getElementById("a").innerHTML = " ";
+                var newValue = parseInt(j);
+                $("#progressbar").progressbar({value: newValue});  
+                document.getElementById("a").innerHTML += j;
+                document.getElementById("a").innerHTML += "<i>%</i>";
+                document.getElementById("a").innerHTML += "<i>\n(Last modified on ";
+                document.getElementById("a").innerHTML += k;
+                document.getElementById("a").innerHTML += ")</i><br /><br />";
+                document.getElementById("a").innerHTML += i;
+            }
+        </script>
         <?php echo smiley_js(); ?>
     </head>
     <body>
-        <script language="javaScript">
-            function doEcho(i){
-                document.getElementById("a").innerHTML = i;
-            }
-        </script>
         <?php foreach ($query as $item): ?>
             <h2><i><?= $item->subject ?></i></h2><br />
             <?php
             $sql = "SELECT * FROM version_ctrl WHERE entry_id = " . $item->id . " ORDER BY version_id;";
             $result = mysql_query($sql);
 
+            echo "<i>Version : ";
             while ($row = mysql_fetch_assoc($result)) {
-                echo '<a href ="javaScript:doEcho(\'' . $row['body'] . '\')" >Version'. $row['version_id']. ' : </a>';
-                $percentage = $row['donepercent'];
-                $done = $percentage * 2;
-                $notdone = 200 - $done;
-                $pimg1 = base_url() . "pb1.jpg";
-                $pimg2 = base_url() . "pb2.jpg";
-                $pimg3 = base_url() . "pb3.jpg";
-                echo "<img src = $pimg1>";
-                for ($i = "1"; $i <= $done; $i++) {
-                    echo"<img src= $pimg2>";
-                }
-                for ($i = "1"; $i <= $notdone; $i++) {
-                    echo"<img src= $pimg3>";
-                }
-                echo"<img src=$pimg1>";
-                echo '<span style = "color:red">', $percentage, '%</span>';
-                echo "     ";
-                echo "<i>";
-                echo "(Last modified on ";
-                echo $row['dateposted'];
-                echo ")";
-                echo "</i>";
-                echo "<br /><br />";
+                echo '<a href ="javaScript:doEcho(\'' . $row['body'] . '\', \'' . $row['donepercent'] . '\',\'' . $row['dateposted'] . '\')" >[' . $row['version_id'] . '] </a>';
             }
+            echo "</i><br /><br />";
             ?>
+            <div id="progressbar"></div>
             <div id="a"></div>
             <?php echo "<br />"; ?>
             <?php if ($login_user): ?>

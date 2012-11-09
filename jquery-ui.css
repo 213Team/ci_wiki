@@ -170,7 +170,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 /* right-aligned */
 .ui-menu .ui-menu-icon { position: static; float: right; }
 
-.ui-progressbar { height:2em; text-align: left; overflow: hidden; }
+.ui-progressbar { height:1em;width: 20.3em;text-align: left; overflow: hidden; }
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
 .ui-resizable { position: relative;}
 .ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; }
