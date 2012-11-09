@@ -34,7 +34,7 @@ class Entry_model extends CI_Model {
         $row = mysql_fetch_assoc($result);
 
         $data1 = array(
-            'entry_id' => $row['id'],
+            'entry_id' => $row['id'] ,
             'version_id' => 1,
             'body' => $_POST['body'],
             'dateposted' => date("Y-m-d H:i:s", time()),
@@ -42,7 +42,7 @@ class Entry_model extends CI_Model {
         );
         $this->db->insert('version_ctrl', $data1);
         $data2 = array(
-            'cid' => $row['id'] + 1,
+            'cid' => $row['id'] ,
             'fid' => $_POST['fid'],
             'deepth' => $_POST['fdeepth'] + 1
         );
