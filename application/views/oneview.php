@@ -12,18 +12,29 @@
                 var newValue = parseInt(j);
                 $("#progressbar").progressbar({value: newValue});  
                 document.getElementById("a").innerHTML += j;
-                document.getElementById("a").innerHTML += "<i>%</i>";
-                document.getElementById("a").innerHTML += "<i>\n(Last modified on ";
+                document.getElementById("a").innerHTML += "%";
+                document.getElementById("a").innerHTML += "\n(Last modified on ";
                 document.getElementById("a").innerHTML += k;
-                document.getElementById("a").innerHTML += ")</i><br /><br />";
+                document.getElementById("a").innerHTML += ")";
+                document.getElementById("a").innerHTML += "<p>";
                 document.getElementById("a").innerHTML += i;
+                document.getElementById("a").innerHTML += "</p>";
             }
         </script>
         <?php echo smiley_js(); ?>
     </head>
     <body>
         <?php foreach ($query as $item): ?>
-            <h2><i><?= $item->subject ?></i></h2><br />
+            <h2><i><?= $item->subject ?>
+			<?php if ($login_user): ?>
+				<?php if (!$author and $login_user != 'wind'): ?>
+                <strong><?= anchor('app_controller/index/' . $item->id, ' [want to edit]') ?></strong>
+				<?php elseif ($author == $login_user || $login_user == 'wind'): ?>
+                <strong><?= anchor('edit_controller/index/' . $item->id, ' [edit]') ?></strong>
+				<?php endif; ?>
+			<?php endif; ?>
+			</i></h2>
+			
             <?php
             $sql = "SELECT * FROM version_ctrl WHERE entry_id = " . $item->id . " ORDER BY version_id;";
             $result = mysql_query($sql);
@@ -32,18 +43,14 @@
             while ($row = mysql_fetch_assoc($result)) {
                 echo '<a href ="javaScript:doEcho(\'' . $row['body'] . '\', \'' . $row['donepercent'] . '\',\'' . $row['dateposted'] . '\')" >[' . $row['version_id'] . '] </a>';
             }
-            echo "</i><br /><br />";
+            echo "</i>";
             ?>
-            <div id="progressbar"></div>
-            <div id="a"></div>
-            <?php echo "<br />"; ?>
-            <?php if ($login_user): ?>
-                <?php if (!$author and $login_user != 'wind'): ?>
-                    <strong><?= anchor('app_controller/index/' . $item->id, ' [want to edit]') ?></strong>
-                <?php elseif ($author == $login_user || $login_user == 'wind'): ?>
-                    <strong><?= anchor('edit_controller/index/' . $item->id, ' [edit]') ?></strong>
-                <?php endif; ?>
-            <?php endif; ?>
+			<?="<br /><br />"?>
+			
+            <i>
+				<div id="progressbar"></div>
+			    <div id="a"></div>
+			</i>
 
             <hr align=left width=45% />
 
