@@ -50,7 +50,11 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
+<<<<<<< HEAD
 $db['default']['password'] = '1234';
+=======
+$db['default']['password'] = '12345';
+>>>>>>> 1ce023b859ea4624a1389ffeba52cf2c84e9777a
 $db['default']['database'] = 'ci_wiki';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
