@@ -29,10 +29,7 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-<<<<<<< HEAD
-=======
 
->>>>>>> 1ce023b859ea4624a1389ffeba52cf2c84e9777a
 if (defined('ENVIRONMENT'))
 {
 	switch (ENVIRONMENT)
@@ -205,16 +202,9 @@ if (defined('ENVIRONMENT'))
  *
  */
 require_once BASEPATH.'core/CodeIgniter.php';
-<<<<<<< HEAD
-=======
 
->>>>>>> 1ce023b859ea4624a1389ffeba52cf2c84e9777a
 /* End of file index.php */
 /* Location: ./index.php */
 ?>
     </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> 1ce023b859ea4624a1389ffeba52cf2c84e9777a

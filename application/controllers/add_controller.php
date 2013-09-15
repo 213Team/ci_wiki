@@ -10,11 +10,9 @@ class Add_controller extends CI_Controller {
     function index($id)
     {
 		$data['title'] = 'Writing in Group';
-<<<<<<< HEAD
+
 		if ($this->session->userdata('username') == '')
 			redirect('login_controller');
-=======
->>>>>>> 1ce023b859ea4624a1389ffeba52cf2c84e9777a
 		$data['login_user'] = $this->session->userdata('username');
 		$this->load->view('header', $data);
 		
