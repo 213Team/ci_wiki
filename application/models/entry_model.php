@@ -13,10 +13,10 @@ class Entry_model extends CI_Model {
 
     function get_entry($id) {
         if ($id) {
-            $query = $this->db->query('select * from entries, catalogus where id = cid and id =' . $id);
+            $query = $this->db->query('select * from books where id =' . $id);
             return $query->result();
         } else {
-            $query = $this->db->query('select * from entries, catalogus where id = cid');
+            $query = $this->db->query('select * from books');
             foreach ($query->result() as $item) {
                 $array[$item->fid][] = $item;
             }

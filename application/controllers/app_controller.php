@@ -9,7 +9,9 @@ class App_controller extends CI_Controller {
 	}
 	
     function index($eid)
-    {
+    {	
+		if ($this->session->userdata('username') == '')
+			redirect('login_controller');
 		$data['title'] = 'Writing in Group';
 		$data['login_user'] = $this->session->userdata('username');
 		$this->load->view('header', $data);
@@ -21,6 +23,8 @@ class App_controller extends CI_Controller {
     
     function get()
     {
+		if ($this->session->userdata('username') == '')
+			redirect('login_controller');
 		$data['title'] = 'Writing in Group';
 		$data['login_user'] = $this->session->userdata('username');
 		$this->load->view('header', $data);
