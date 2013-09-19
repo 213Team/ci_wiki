@@ -1,11 +1,9 @@
-<html>
-<body>
 <i><?=$tips?></i><br />
-<?=form_open('login_controller/login')?>
+<?php echo form_open('usercenter/dologin');?>
 <table>
 	<tr>
 		<td><i><?="Username :"?></i></td>
-		<td><?=form_input('name')?></td>
+		<td><?=form_input('username')?></td>
 	</tr>
 	<tr>
 		<td><i><?="Password :"?></i></td>
@@ -17,5 +15,3 @@
 	</tr>
 </table>
 </form>
-</body>
-</html>

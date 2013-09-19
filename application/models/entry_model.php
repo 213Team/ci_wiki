@@ -11,17 +11,9 @@ class Entry_model extends CI_Model {
         parent::__construct();
     }
 
-    function get_entry($id) {
-        if ($id) {
-            $query = $this->db->query('select * from books where id =' . $id);
+    function get_entry($uid) {
+            $query = $this->db->query('select * from books where uid=' . $uid);
             return $query->result();
-        } else {
-            $query = $this->db->query('select * from books');
-            foreach ($query->result() as $item) {
-                $array[$item->fid][] = $item;
-            }
-            return $array;
-        }
     }
 
     function insert_entry() {

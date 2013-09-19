@@ -12,14 +12,11 @@
 <div id="menu">
 	<?=anchor('', "Home")?> &bull;
 	<?php if ($login_user):?>
-	<?=anchor('logout_controller', "Logout")?>
-	<i><?="[$login_user]"?></i>
-	<?php if ($login_user== 'wind' ):?>
-	<i><?=anchor('app_controller/get', "[Apps]")?></i>
-	<?php endif;?>
+	<?=anchor('usercenter/dologout', "Logout")?>
+	<i><?=anchor('usercenter',"[".$login_user['username']."]")?></i>
 	<?php else:?>
-	<?=anchor('login_controller', "Login")?> &bull;
-	<?=anchor('register_controller', "Register")?>
+	<?=anchor('usercenter/login', "Login")?> &bull;
+	<?=anchor('usercenter/register', "Register")?>
 	<?php endif;?>
 </div>
 

@@ -21,9 +21,9 @@ class User_model extends CI_Model {
         $this->db->insert('users', $this);
 	}
 	
-	function login_check()
+	function login_check($name, $password)
 	{
-		$query = $this->db->get_where('users', array('name' => $_POST['name'], 'password' => $_POST['password']));
+		$query = $this->db->get_where('users', array('name' => $name, 'password' => $password));
 		return $query->row();
 	}
 }
