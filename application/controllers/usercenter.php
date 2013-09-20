@@ -18,7 +18,6 @@ class UserCenter extends CI_Controller {
 		$this->load->view('header', $data);
 
         $this->load->model('Entry_model');
-        var_dump($this->session->userdata('user'));
 		$data['array'] = $this->Entry_model->get_entry($data['login_user']['uid']);
 		$data['flag'] = 0;
 		$data['id'] = 0;
@@ -45,7 +44,7 @@ class UserCenter extends CI_Controller {
 		$row = $this->User_model->login_check($_POST['username'], $_POST['password']);
 		if ($row)
 		{
-			$this->session->set_userdata('user', array("username"=>$row->name, "uid"=>$row->id));
+			$this->session->set_userdata('user', array("username"=>$row->username, "uid"=>$row->id));
 			redirect('usercenter/index');
 		}
 		else
@@ -71,6 +70,7 @@ class UserCenter extends CI_Controller {
 	}
 	
 	function doregister(){
+		$this->load->model('User_model');
 		$this->User_model->add_user();
 		$this->load->view('congratulation');
 	}

@@ -13,7 +13,7 @@ class User_model extends CI_Model {
     
     function add_user()
     {
-		$this->name = $_POST['name'];
+		$this->name = $_POST['username'];
         $this->password = $_POST['password'];
         $this->email = $_POST['email'];
         $this->profile = $_POST['profile'];
@@ -23,7 +23,7 @@ class User_model extends CI_Model {
 	
 	function login_check($name, $password)
 	{
-		$query = $this->db->get_where('users', array('name' => $name, 'password' => $password));
+		$query = $this->db->get_where('users', array('username' => $name, 'password' => $password));
 		return $query->row();
 	}
 }
