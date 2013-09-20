@@ -13,7 +13,7 @@ class User_model extends CI_Model {
     
     function add_user()
     {
-		$this->name = $_POST['username'];
+		$this->username = $_POST['username'];
         $this->password = $_POST['password'];
         $this->email = $_POST['email'];
         $this->profile = $_POST['profile'];

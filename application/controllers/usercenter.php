@@ -13,28 +13,33 @@ class UserCenter extends CI_Controller {
     {
     	if($this->session->userdata('user') == false)
     		redirect('usercenter/login');
-		$data['title'] = 'Writing in Group';
+		else
+			redirect('usercenter/dashboard');
+    }
+
+	function dashboard(){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	$data['title'] = '用户首页 - Writing in Group';
 		$data['login_user'] = $this->session->userdata('user');
 		$this->load->view('header', $data);
-
-        $this->load->model('Entry_model');
+		
+		$this->load->model('Entry_model');
 		$data['array'] = $this->Entry_model->get_entry($data['login_user']['uid']);
-		$data['flag'] = 0;
-		$data['id'] = 0;
-        $this->load->view('entryview', $data);
+        $this->load->view('usercenter/dashboard', $data);
+        $this->load->view('usercenter/sidebar', $data);
         $this->load->view('footer');
-    }
+	}
 
 	function login($tipid = 0){
 		if($this->session->userdata('user') != false)
     		redirect('usercenter/index');
 		$this->load->model('User_model');
-		$data['title'] = 'Writing in Group';
-		$data['login_user'] = false;
+		$data['title'] = '登陆 - Writing in Group';
 		$this->load->view('header', $data);
         
         $data['tips'] = $this->tips[$tipid];
-        $this->load->view('login_view', $data);
+        $this->load->view('usercenter/login_view', $data);
         $this->load->view('footer');
 	}
 
@@ -60,11 +65,12 @@ class UserCenter extends CI_Controller {
 	}
 	
 	function register(){
-		$data['title'] = 'Writing in Group';
-		$data['login_user'] = $this->session->userdata('user')['username'];
+		$data['title'] = '注册 - Writing in Group';
+		if($this->session->userdata('user') != false)
+			$data['login_user'] = $this->session->userdata('user')['username'];
 		$this->load->view('header', $data);
         
-        $this->load->view('register_view');
+        $this->load->view('usercenter/register_view', $data);
 		
         $this->load->view('footer');
 	}

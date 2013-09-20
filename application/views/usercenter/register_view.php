@@ -1,10 +1,7 @@
 <div class="container" style="margin-top:10px;">
 <div class="row">
 <div class="col-md-offset-3 col-md-6">
-<div class="panel panel-default" style="-webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    box-shadow: 0 0 1em #ccc;">
+<div class="panel panel-default no-radius boxshadow">
     <div class="panel-heading text-center">注册 Write in Group</div>
   	<div class="panel-body">
 	<?php echo form_open('usercenter/doregister', 'class="form-horizontal" role="form"');?>

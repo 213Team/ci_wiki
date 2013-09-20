@@ -23,6 +23,15 @@ $echoactive = function($controller, $func = "") use ($class, $method){
 	<link href="<?php echo base_url();?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>/css/bootstrap-responsive.min.css" rel="stylesheet">
 	<link href="<?php echo base_url();?>/css/style.css" rel="stylesheet">
+	
+	<style type="text/css">
+	.no-radius{
+		-webkit-border-radius: 0;
+	    -moz-border-radius: 0;
+	    border-radius: 0;
+    }
+    .boxshadow{box-shadow: 0 0 1em #ccc;}
+	</style>
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -63,7 +72,7 @@ $echoactive = function($controller, $func = "") use ($class, $method){
     </ul>
     
     <ul class="nav navbar-nav navbar-right">
-    <?php if ($login_user):?>
+    <?php if (isset($login_user) && $login_user):?>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $login_user['username']?><b class="caret"></b></a>
         <ul class="dropdown-menu">
