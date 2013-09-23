@@ -2,9 +2,15 @@
 <div class="row">
 <div class="col-md-offset-3 col-md-6">
 <div class="panel panel-default no-radius boxshadow">
-    <div class="panel-heading text-center">注册 Write in Group</div>
+    <div class="panel-heading text-center"><strong>注册 Write in Group</strong></div>
   	<div class="panel-body">
-	<?php echo form_open('usercenter/doregister', 'class="form-horizontal" role="form"');?>
+	<?php echo form_open('usercenter/doregister', 'class="form-horizontal" role="form"');
+		if (isset($tips) && $tips != ''){?>
+		<div class="alert alert-danger">
+  			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  			<strong><?php echo $tips;?></strong>
+		</div>
+		<?php }?>
 		<div class="form-group">
     		<label for="name" class="col-sm-2 control-label">用户名</label>
     		<div class="col-sm-10">
@@ -13,6 +19,12 @@
   		</div>
 		<div class="form-group">
     		<label for="password" class="col-sm-2 control-label">密码</label>
+    		<div class="col-sm-10">
+    		<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+    		</div>
+  		</div>
+  		<div class="form-group">
+    		<label for="password" class="col-sm-2 control-label">确认密码</label>
     		<div class="col-sm-10">
     		<input type="password" class="form-control" id="password" name="password" placeholder="Password">
     		</div>

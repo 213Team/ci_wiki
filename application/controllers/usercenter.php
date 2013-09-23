@@ -6,7 +6,8 @@ class UserCenter extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->tips = array('', "Incorrect Username or Password.Please try again!");
+		date_default_timezone_set("PRC");
+		$this->tips = array('', "用户名密码错误，请重试。", "验证码错误。");
 	}	
 
     function index()
@@ -30,6 +31,67 @@ class UserCenter extends CI_Controller {
         $this->load->view('usercenter/sidebar', $data);
         $this->load->view('footer');
 	}
+	
+	function mybooks($tipid = 0){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	$data['title'] = '用户首页 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');
+		
+		$this->load->model('Book');
+		$data['mybooks'] = $this->Book->getBooks(array('uid' => $data['login_user']['uid']));
+		
+		$tips = array('', '添加书籍失败');
+		$data['tips'] = $tips[$tipid];
+		
+		$this->load->view('header', $data);
+		$this->load->view('usercenter/mybooks');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+	
+	function doaddbook(){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	if(!isset($_POST['title']) || $_POST['title'] == "") 
+    		redirect('usercenter/mybooks/1');
+    	$this->load->model('Book');
+    	if($this->Book->addBook(array('uid' => $this->session->userdata('user')['uid'], 'title' => $_POST['title']))){
+    		redirect('usercenter/mybooks');
+    	}else{
+    		redirect('usercenter/mybooks/1');
+    	}
+	}
+	
+	function catalog($bookid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+		if($bookid == "")
+			redirect('usercenter/mybooks');
+		$data['title'] = '书籍目录 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');
+		
+		$this->load->model('Book');
+		$data['book_title'] = $this->Book->getBooks(array('id' => $bookid))[0]->title;
+		$tmp = $this->Books->getcatalog($data['login_user']['uid'], $bookid);
+		$data['catalog'] = array();
+		$data['catalog'][-1] = array();
+		foreach($tmp as $row){
+			if($row->fid == $row->id){
+				array_push($data['catalog'][-1], $row);
+			}else{
+				if(!isset($data['catalog'][$row->fid])){
+					$data['catalog'][$row->fid] = array();
+				}
+				array_push($data['catalog'][$row->fid], $row);
+			}
+		}
+		
+		$this->load->view('header', $data);
+		$this->load->view('usercenter/catalog');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
 
 	function login($tipid = 0){
 		if($this->session->userdata('user') != false)
@@ -46,6 +108,9 @@ class UserCenter extends CI_Controller {
     function dologin()
     {
 		$this->load->model('User_model');
+		if(strtolower($_POST['captcha']) != strtolower($this->session->userdata('captcha')))
+			redirect('usercenter/login/2');
+		
 		$row = $this->User_model->login_check($_POST['username'], $_POST['password']);
 		if ($row)
 		{

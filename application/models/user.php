@@ -1,17 +1,21 @@
 <?php
-class User_model extends CI_Model {
-
-    var $name = '';
-    var $password = '';
-    var $email = '';
-    var $profile = '';
+class User extends CI_Model {
 
     function __construct()
     {
         parent::__construct();
     }
     
-    function add_user()
+	function _required($required, $data){
+    	foreach($required as $field) if(!isset($data[$field])) return false;
+    	return true;
+	}
+
+	function _default($defaults, $options){
+    	return array_merge($defaults, $options);
+	}    
+    
+    function addUser($options = array())
     {
 		$this->username = $_POST['username'];
         $this->password = $_POST['password'];
