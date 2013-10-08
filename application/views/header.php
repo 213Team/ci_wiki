@@ -31,6 +31,12 @@ $echoactive = function($controller, $func = "") use ($class, $method){
 	    border-radius: 0;
     }
     .boxshadow{box-shadow: 0 0 1em #ccc;}
+    .nav > li.disabled.nav-header > a {
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+	}
 	</style>
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -77,9 +83,6 @@ $echoactive = function($controller, $func = "") use ($class, $method){
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $login_user['username']?><b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">导航</li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li class="divider"></li>
           <li><?php echo anchor('usercenter','进入用户中心');?></li>
           <li><?php echo anchor('usercenter/dologout','注销');?></li>
         </ul>
