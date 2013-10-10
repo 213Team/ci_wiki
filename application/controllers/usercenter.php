@@ -318,14 +318,17 @@ class UserCenter extends CI_Controller {
 		$this->load->view('header', $data);
 		
         $tips = array('', "用户名密码错误，请重试。", "验证码错误。");
-        $data['tips'] = $tips[$tipid];
+		$data['tips'] = $tips[$tipid];
+		$data['oldlogin'] = $this->session->userdata('oldlogin');
         $this->load->view('usercenter/login_view', $data);
-        $this->load->view('footer');
+		$this->load->view('footer');
+		$this->session->unset_userdata('oldlogin');
 	}
 
     function dologin()
     {
 		$this->load->model('user_model');
+	    $this->session->set_userdata('oldlogin',$_POST['username']);	
 		if(strtolower($_POST['captcha']) != strtolower($this->session->userdata('captcha')))
 			redirect('usercenter/login/2');
 		
@@ -340,6 +343,7 @@ class UserCenter extends CI_Controller {
 			$this->session->unset_userdata('user');
 			redirect('usercenter/login/1');
 		}
+		$this->session->unset_userdata('oldlogin');
 	}
 	
 	function dologout(){
@@ -354,16 +358,19 @@ class UserCenter extends CI_Controller {
 		
 		$tips = array('', '两次密码输入不一致。', '用户名或邮箱已注册。', '验证码错误。', '用户名或密码为空');
 		$data['tips'] = $tips[$tipid];
+		$data['olduser'] = $this->session->userdata('olduser');
 		
 		$this->load->view('header', $data);
         
         $this->load->view('usercenter/register_view', $data);
 		
-        $this->load->view('footer');
+		$this->load->view('footer');
+		$this->session->unset_userdata('olduser');
 	}
 	
 	function doregister(){
 		$this->load->model('user_model');
+		$this->session->set_userdata('olduser',array("oldname"=>$_POST['username'],"oldemail"=>$_POST['email']));
 		if(strtolower($_POST['captcha']) != strtolower($this->session->userdata('captcha')))
 			redirect('usercenter/register/3');
 		if($_POST['username'] == "" || $_POST['password'] == "")
@@ -373,7 +380,9 @@ class UserCenter extends CI_Controller {
 		if($this->user_model->addUser($_POST) == false){
 			redirect('usercenter/register/2');
 		}
-		$this->load->view('congratulation');
+		$this->load->view('header');
+		$this->load->view('usercenter/congratulation');
+		$this->session->unset_userdata('olduser');
 	}
 }
 
