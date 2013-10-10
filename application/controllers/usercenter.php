@@ -177,6 +177,105 @@ class UserCenter extends CI_Controller {
     	}
 	}
 
+	function pullrequest(){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	
+    	$data['title'] = '修改申请 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');	
+    	
+    	$this->load->model('pullrequest_model');
+    	$data['pullrequest'] = $this->pullrequest_model->getPullrequests(array('uid'=>$data['login_user']['uid']));
+    	
+    	$this->load->view('header', $data);
+        $this->load->view('usercenter/pullrequest');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+
+	function viewdiff($pid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    		
+    	if(!isset($pid))
+    		redirect('usercenter/pullrequest');
+    		
+    	
+    	$data['title'] = '修改申请 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');	
+    	
+    	$this->load->model('pullrequest_model');
+    	$data['pullrequest'] = $this->pullrequest_model->getPullrequests(array('id'=>$pid, 'uid'=>$data['login_user']['uid']))[0];
+    	
+    	if(!$data['pullrequest'])
+    		redirect('usercenter/pullrequest');
+    		
+    	$this->load->model('body_model');
+    	$data['body'] = $this->body_model->getBody(array('cid'=>$data['pullrequest']->cid))[0];
+    	
+    	$this->load->view('header', $data);
+        $this->load->view('usercenter/viewdiff');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+
+	function doacpr($pid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    		
+    	if(!isset($pid))
+    		redirect('usercenter/pullrequest');	
+    		
+    	$this->load->model('pullrequest_model');
+    	$pr = $this->pullrequest_model->getPullrequests(array('id'=>$pid, 'uid'=>$this->session->userdata('user')['uid']));
+    	if(!$pr)
+    		redirect('usercenter/pullrequest');
+    		
+    	$this->load->model('body_model');
+    	
+    	$this->body_model->updateBody(array('body'=>$pr[0]->newbody, 'cid'=>$pr[0]->cid, 'uid'=>$pr[0]->uid));
+    	
+    	$this->load->model('contrib_model');
+
+    	$this->contrib_model->addContrib(array('uid'=>$pr[0]->puid, 'cid'=>$pr[0]->cid, 'bid'=>$pr[0]->bid));
+    	
+    	$this->pullrequest_model->deletePullrequest(array('id'=>$pid));
+    	redirect('usercenter/pullrequest');
+	}
+	
+	function dodcpr($pid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    		
+    	if(!isset($pid))
+    		redirect('usercenter/pullrequest');	
+    		
+    	$this->load->model('pullrequest_model');
+    	$pr = $this->pullrequest_model->getPullrequests(array('id'=>$pid, 'uid'=>$this->session->userdata('user')['uid']));
+    	
+    	if(!$pr)
+    		redirect('usercenter/pullrequest');
+    	
+    	$this->pullrequest_model->deletePullrequest(array('id'=>$pid));
+    	redirect('usercenter/pullrequest');
+	}
+
+	function mycontrib(){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	
+    	$data['title'] = '我贡献的书籍 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');	
+    	
+    	$this->load->model('contrib_model');
+    	$data['mycontrib'] = $this->contrib_model->getContrib(array('uid'=>$data['login_user']['uid']));
+    	
+    	$this->load->view('header', $data);
+        $this->load->view('usercenter/mycontrib');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+
 	function login($tipid = 0){
 		if($this->session->userdata('user') != false)
     		redirect('usercenter/index');
@@ -218,7 +317,7 @@ class UserCenter extends CI_Controller {
 		if($this->session->userdata('user') != false)
 			$data['login_user'] = $this->session->userdata('user');
 		
-		$tips = array('', '两次密码输入不一致。', '用户名或邮箱已注册。', '验证码错误。');
+		$tips = array('', '两次密码输入不一致。', '用户名或邮箱已注册。', '验证码错误。', '用户名或密码为空');
 		$data['tips'] = $tips[$tipid];
 		
 		$this->load->view('header', $data);
@@ -232,6 +331,8 @@ class UserCenter extends CI_Controller {
 		$this->load->model('user_model');
 		if(strtolower($_POST['captcha']) != strtolower($this->session->userdata('captcha')))
 			redirect('usercenter/register/3');
+		if($_POST['username'] == "" || $_POST['password'] == "")
+			redirect('usercenter/register/4');
 		if($_POST['password'] != $_POST['password2'])
 			redirect('usercenter/register/1');
 		if($this->user_model->addUser($_POST) == false){

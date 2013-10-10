@@ -120,9 +120,12 @@ class Books extends CI_Controller {
     	
     	$data['bookid'] = $bookid;
     	$data['cid'] = $cid;
-    	$data['book'] = $this->book_model->getBooks(array("id"=>$bookid))[0];
+    	$data['book'] = $this->book_model->getBooks(array("id"=>$bookid));
 		if(!$data['book'])
 			redirect('books');	
+    	$data['book'] = $data['book'][0];
+    	if($data['login_user']['uid'] == $data['book']->uid)
+    		redirect("usercenter/edit/{$bookid}/{$cid}");
     	
     	$cata = $this->catalog_model->getCatalog(array("bookid"=>$bookid));
     	
@@ -146,10 +149,31 @@ class Books extends CI_Controller {
 		}
 		}
     	
-    	$data['body'] = $this->body_model->getBody(array('cid'=>$row->id))[0];
+    	$data['body'] = $this->body_model->getBody(array('cid'=>$cid))[0];
     	$this->load->view('header', $data);
     	$this->load->view('sidebar');
     	$this->load->view('pullrequest');
     	$this->load->view('footer');
+	}
+	
+	function dopullrequest($bookid, $cid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	
+    	$this->load->model('book_model');
+    	$book = $this->book_model->getBooks(array("id"=>$bookid));
+		if(!$book)
+			redirect('books');
+		
+    	if($this->session->userdata('user')['uid'] == $book[0]->uid)
+    		redirect("usercenter/edit/{$bookid}/{$cid}");
+			
+		$cata = $this->catalog_model->getCatalog(array("bookid"=>$bookid, "id"=>$cid));
+    	if(!$cata)
+    		redirect('books');
+    		
+    	$this->load->model('pullrequest_model');
+    	$this->pullrequest_model->addPullrequest(array('cid'=>$cid, 'uid'=>$book[0]->uid, 'puid'=>$this->session->userdata['user']['uid'], 'newbody'=>$this->input->post('body', true)));
+		redirect("books/view/{$bookid}/{$cid}");
 	}
 }
