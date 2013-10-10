@@ -64,5 +64,25 @@ class User_Model extends CI_Model {
         $this->db->insert('users');
         return $this->db->insert_id();
 	}
+	
+	function updateUser($options = array()){
+		if(!$this->_required(array('id', 'password', 'profile'), $options))	return false;
+		
+		$qualificationArray = array('password', 'profile');
+    	foreach($qualificationArray as $qualifier)
+    	{
+        	if(isset($options[$qualifier])) 
+        		$this->db->set($qualifier, $options[$qualifier]);
+	    }
+	    
+	    $this->db->where('id', $options['id']);
+	    
+
+    	// Execute the query
+    	$this->db->update('users');
+
+    	// Return the number of rows updated, or false if the row could not be inserted
+    	return $this->db->affected_rows();
+	}
 }
 ?>

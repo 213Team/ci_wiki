@@ -275,6 +275,41 @@ class UserCenter extends CI_Controller {
         $this->load->view('usercenter/sidebar');
         $this->load->view('footer');
 	}
+	
+	function account($tipid = 0){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	
+    	$data['title'] = '修改用户信息 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');
+		$this->load->model('user_model');
+		$data['userinfo'] = $this->user_model->getUsers(array('id'=>$data['login_user']['uid']))[0];
+		$tips = array('', '两次密码输入不一致。', '用户名或邮箱已注册。', '验证码错误。', '用户名或密码为空');
+		$data['tips'] = $tips[$tipid];
+		
+		
+		$this->load->view('header', $data);
+        $this->load->view('usercenter/account');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+	
+	function domodaccount(){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	
+    	if(strtolower($_POST['captcha']) != strtolower($this->session->userdata('captcha')))
+			redirect('usercenter/account/3');
+		if($_POST['username'] == "" || $_POST['password'] == "")
+			redirect('usercenter/account/4');
+		if($_POST['password'] != $_POST['password2'])
+			redirect('usercenter/account/1');
+   		
+    	$this->load->model('user_model');
+    	$this->user_model->updateUser(array('id'=>$this->session->userdata('user')['uid'], 'profile'=>$_POST['profile'], 'password'=>$_POST['password']));
+    	
+    	redirect('usercenter');
+	}
 
 	function login($tipid = 0){
 		if($this->session->userdata('user') != false)
