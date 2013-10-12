@@ -58,7 +58,7 @@ $echoactive = function($controller, $func = "") use ($class, $method){
 	<div class="row">
 		<div class="col-md-12">
 		
-			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<nav class="navbar navbar-default navbar-fixed-top boxshadow" role="navigation">
 				<!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -89,7 +89,7 @@ $echoactive = function($controller, $func = "") use ($class, $method){
       </li>
     <?php else:?>
           <li <?php $echoactive("usercenter","register");?>><?php echo anchor('usercenter/register','注册');?></li>
-		  <li <?php $echoactive("usercenter", "login");?>><?php echo anchor('usercenter/login','登陆');?></li>
+		  <li <?php $echoactive("usercenter", "login");?>><?php echo anchor('usercenter/login','登录');?></li>
 	<?php endif;?>
     </ul>
   </div><!-- /.navbar-collapse -->

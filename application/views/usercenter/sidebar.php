@@ -12,7 +12,7 @@ $echoactive = function($controller, $func = "") use ($class, $method){
 <div class="col-md-4" style="margin-top:70px;">
 <div class="row">
 <div class="col-md-offset-3 col-md-8">
-<div class="panel panel-default boxshadow no-radius">
+<div class="">
 <ul class="nav nav-stacked">
 	<li <?php $echoactive("usercenter","dashboard");?>><?php echo anchor("usercenter", "用户首页");?></li>
 	<li <?php $echoactive("usercenter","mybooks");?>><?php echo anchor("usercenter/mybooks", "我创作的书籍");?></li>

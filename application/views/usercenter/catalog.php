@@ -18,7 +18,7 @@ function cmp($a, $b)
 				echo '&nbsp;&nbsp;&nbsp;&nbsp;';
 			}
 			echo anchor("usercenter/edit/".$row->bookid.'/'.$row->id, $k.".&nbsp;&nbsp;".$row->title);
-			echo '</td></tr>';
+			echo '</td><td>'.anchor("usercenter/checkpoints/".$row->id, "查看历史还原点")."</td></tr>";
 			printTitle($cata, $row->id, $i + 1);
 			$k++;
 		}
@@ -36,6 +36,12 @@ function cmp($a, $b)
 		</div>
 	<?php }else{?>
 	<table class="table table-hover">
+		<thead>
+			<tr>
+              <th width="60%">章节名</th>
+              <th>操作</th>
+            </tr>
+		</thead>
     	<?php printTitle($catalog, -1, 0);?>
 	</table>
 	<?php }?>

@@ -1,6 +1,6 @@
-<div class="container" style="margin-top:70px;">
+<div class="col-md-8" style="margin-top:70px;">
 <div class="row">
-<div class="col-md-offset-3 col-md-6">
+<div class="col-md-offset-1 col-md-11">
 <div class="panel panel-default no-radius boxshadow">
     <div class="panel-heading text-center"><strong>修改账户信息</strong></div>
   	<div class="panel-body">

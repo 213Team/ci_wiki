@@ -1,8 +1,8 @@
-<div class="container" style="margin-top:10px;">
+<div class="container" style="margin-top:20px;">
 <div class="row">
 <div class="col-md-offset-3 col-md-6">
 <div class="panel panel-default no-radius boxshadow">
-    <div class="panel-heading text-center"><strong>登陆 Write in Group</strong></div>
+    <div class="panel-heading text-center"><strong>登录 Write in Group</strong></div>
   	<div class="panel-body">
 	<?php echo form_open('usercenter/dologin','class="form-horizontal" role="form"');
 		if ($tips != ''){?>

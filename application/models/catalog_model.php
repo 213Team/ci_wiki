@@ -27,13 +27,15 @@ class Catalog_Model extends CI_Model {
 	
 		$options = $this->_default(array('sortDirection' => 'asc'), $options);
 		
-		$qualificationArray = array('uid', 'bookid', 'id');
+		$qualificationArray = array('bookid', 'id');
     	foreach($qualificationArray as $qualifier)
     	{
        		if(isset($options[$qualifier])) 
         		$this->db->where('catalog.'.$qualifier, $options[$qualifier]);
     	}
     	
+    	if(isset($options['uid'])) 
+	    	$this->db->where('books.uid', $options['uid']);
     	if(isset($options['limit']) && isset($options['offset'])) 
     		$this->db->limit($options['limit'], $options['offset']);
     	else if(isset($options['limit'])) $this->db->limit($options['limit']);

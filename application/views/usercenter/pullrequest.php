@@ -17,6 +17,7 @@
               <th>修改用户</th>
             </tr>
         </thead>
+        <tbody>
         <?php $i = 1;
           foreach($pullrequest as $row){
           ?>	

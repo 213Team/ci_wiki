@@ -20,6 +20,12 @@ class UserCenter extends CI_Controller {
     		redirect('usercenter/login');
     	$data['title'] = '用户首页 - Writing in Group';
 		$data['login_user'] = $this->session->userdata('user');
+		$this->load->model('user_model');
+		$this->load->model('book_model');
+		$this->load->model('contrib_model');
+		$data['user'] = $this->user_model->getUsers(array('id'=>$data['login_user']['uid']))[0];
+		$data['mybooks'] = $this->book_model->getBooks(array('uid'=>$data['login_user']['uid']));
+		$data['mycontrib'] = $this->contrib_model->getContrib(array('uid'=>$data['login_user']['uid']));
 		
 		$this->load->view('header', $data);
         $this->load->view('usercenter/dashboard');
@@ -30,7 +36,7 @@ class UserCenter extends CI_Controller {
 	function mybooks($tipid = 0){
 		if($this->session->userdata('user') == false)
     		redirect('usercenter/login');
-    	$data['title'] = '用户首页 - Writing in Group';
+    	$data['title'] = '我创作的书籍 - Writing in Group';
 		$data['login_user'] = $this->session->userdata('user');
 		
 		$this->load->model('book_model');
@@ -51,7 +57,8 @@ class UserCenter extends CI_Controller {
     	if(!isset($_POST['title']) || $_POST['title'] == "") 
     		redirect('usercenter/mybooks/1');
     	$this->load->model('book_model');
-    	if($this->book_model->addBook(array('uid' => $this->session->userdata('user')['uid'], 'title' => $_POST['title']))){
+    	if($this->book_model->addBook(array(
+    		'uid' => $this->session->userdata('user')['uid'], 				'title' => $this->input->post('title', true)))){
     		redirect('usercenter/mybooks');
     	}else{
     		redirect('usercenter/mybooks/1');
@@ -138,11 +145,8 @@ class UserCenter extends CI_Controller {
 		$data['login_user'] = $this->session->userdata('user');	
     	
     	$this->load->model('book_model');
-    	//if($this->book_model->getBooks(array('uid'=>$this->session->userdata['user']['uid'], 'id'=>$bookid)) == false)
-    		//redirect('usercenter/mybooks');
     	$this->load->model('catalog_model');
     	$this->load->model('body_model');
-    	$this->load->model('book_model');
     	
     	if(!$this->body_model->_checkAuthor($this->session->userdata['user']['uid'], $cataid))
     		redirect('usercenter/mybooks');
@@ -158,19 +162,23 @@ class UserCenter extends CI_Controller {
     	
 	}
 	
-	function doupdatebody($cataid){
+	function doupdatebody($cataid, $checkpoint = ""){
 		if($this->session->userdata('user') == false)
     		redirect('usercenter/login');
     	$this->load->model('body_model');
     	
     	if(!$this->body_model->_checkAuthor($this->session->userdata['user']['uid'], $cataid))
     		redirect('usercenter/mybooks');
-    		
+
     	$this->load->model('catalog_model');
     	$cata = $this->catalog_model->getCatalog(array('id'=>$cataid))[0];
     	if($this->body_model->updateBody(array('uid'=>$this->session->userdata['user']['uid'], 'cid'=>$cataid, 'body'=>$this->input->post('body', true)))){
     		$this->load->model('book_model');
+    		$this->load->model('checkpoint_model');
     		$this->book_model->updateBook(array('id'=>$cata->bookid, 'uid'=>$this->session->userdata['user']['uid']));
+    		if($checkpoint == "checkpoint")
+	    		$this->checkpoint_model->addCheckpoint(array("cid"=>$cataid, "bid"=>$cata->bookid, "body"=>$this->input->post('body', true)));
+    		
     		redirect("usercenter/catalog/{$cata->bookid}");
     	}else{
     		redirect("usercenter/catalog/{$cata->bookid}/3");
@@ -300,7 +308,7 @@ class UserCenter extends CI_Controller {
     	
     	if(strtolower($_POST['captcha']) != strtolower($this->session->userdata('captcha')))
 			redirect('usercenter/account/3');
-		if($_POST['username'] == "" || $_POST['password'] == "")
+		if($_POST['password'] == "")
 			redirect('usercenter/account/4');
 		if($_POST['password'] != $_POST['password2'])
 			redirect('usercenter/account/1');
@@ -311,10 +319,94 @@ class UserCenter extends CI_Controller {
     	redirect('usercenter');
 	}
 
+	function checkpoints($cid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	if(!isset($cid))
+    		redirect('usercenter/mybooks');
+    		
+    	$data['title'] = '查看历史还原点 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');
+		$this->load->model('checkpoint_model');
+		$this->load->model('catalog_model');
+		$data['cata'] = $this->catalog_model->getCatalog(array('id'=>$cid, 'uid'=>$this->session->userdata('user')['uid']));
+		if(!$data['cata'])
+			redirect('usercenter/mybooks');
+		else
+			$data['cata'] = $data['cata'][0];
+		$data['cp'] = $this->checkpoint_model->getCheckpoints(array('cid'=>$cid));
+		
+		$this->load->view('header', $data);
+        $this->load->view('usercenter/checkpoints');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+	
+	function viewcp($cpid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	if(!isset($cpid))
+    		redirect('usercenter/mybooks');
+    	$data['title'] = '查看历史还原点 - Writing in Group';
+		$data['login_user'] = $this->session->userdata('user');
+		
+    	$this->load->model('checkpoint_model');
+    	$this->load->model('catalog_model');
+		$data['cp'] = $this->checkpoint_model->getCheckpoints(array('id'=>$cpid));
+		$data['cata'] = $this->catalog_model->getCatalog(array('id'=>$data['cp'][0]->cid));
+		
+		if(!$data['cp'] || !$this->catalog_model->_checkAuthor($this->session->userdata('user')['uid'], $data['cata'][0]->bookid))
+			redirect("usercenter/mybooks");
+		$data['cp'] = $data['cp'][0];
+		$data['cata'] = $data['cata'][0];
+		
+		$this->load->view('header', $data);
+        $this->load->view('usercenter/viewcp');
+        $this->load->view('usercenter/sidebar');
+        $this->load->view('footer');
+	}
+	
+	function dofallback($cpid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	if(!isset($cpid))
+    		redirect('usercenter/mybooks');
+		
+    	$this->load->model('checkpoint_model');
+    	$this->load->model('catalog_model');
+		$cp = $this->checkpoint_model->getCheckpoints(array('id'=>$cpid));
+		$cata = $this->catalog_model->getCatalog(array('id'=>$cp[0]->cid));
+		
+		if(!$cp || !$this->catalog_model->_checkAuthor($this->session->userdata('user')['uid'], $cata[0]->bookid))
+			redirect("usercenter/mybooks");
+			
+		$this->load->model('body_model');
+		$this->body_model->updateBody(array('cid'=>$cp[0]->cid, 'uid'=>$this->session->userdata('user')['uid'], 'body'=>$cp[0]->body));
+		
+		redirect("usercenter/catalog/{$cata[0]->bookid}");
+	}
+	
+	function dodelcp($cpid){
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	if(!isset($cpid))
+    		redirect('usercenter/mybooks');
+		$this->load->model('checkpoint_model');
+    	$this->load->model('catalog_model');
+		$cp = $this->checkpoint_model->getCheckpoints(array('id'=>$cpid));
+		$cata = $this->catalog_model->getCatalog(array('id'=>$cp[0]->cid));
+		
+		if(!$cp || !$this->catalog_model->_checkAuthor($this->session->userdata('user')['uid'], $cata[0]->bookid))
+			redirect("usercenter/mybooks");
+			
+		$this->checkpoint_model->deleteCheckpoint(array('id'=>$cpid));
+		redirect("usercenter/checkpoints/{$cp[0]->cid}");
+	}
+
 	function login($tipid = 0){
 		if($this->session->userdata('user') != false)
     		redirect('usercenter/index');
-		$data['title'] = '登陆 - Writing in Group';
+		$data['title'] = '登录 - Writing in Group';
 		$this->load->view('header', $data);
 		
         $tips = array('', "用户名密码错误，请重试。", "验证码错误。");

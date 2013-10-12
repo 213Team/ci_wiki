@@ -1,32 +1,59 @@
 <?php
 class Comment_model extends CI_Model {
 
-    var $id = '';
-    var $eid = '';
-    var $uname = '';
-    var $body = '';
-    var $time = '';
-
     function __construct()
     {
         parent::__construct();
     }
     
-	function get_comment($eid)
-    {
-		$query = $this->db->get_where('comments', array('eid' => $eid));
-		return $query->result();
+    function _required($required, $data){
+    	foreach($required as $field) if(!isset($data[$field])) return false;
+    	return true;
 	}
 
-    function insert_comment()
-    {
-        $this->eid = $_POST['eid'];
-        $this->uname = $_POST['uname'];
-        $this->body = $_POST['body'];
-        $this->time = date("Y-m-d H:i:s",time());
+	function _default($defaults, $options){
+    	return array_merge($defaults, $options);
+	}
 
-        $this->db->insert('comments', $this);
-        redirect('one_controller/index/'.$_POST['eid']);
-    }
+	function getComments($options = array()) {
+    	$options = $this->_default(array('sortDirection' => 'asc'), $options);
+
+    	// Add where clauses to query
+    	$qualificationArray = array('id', 'cid');
+    	foreach($qualificationArray as $qualifier)
+    	{
+       		if(isset($options[$qualifier])) 
+        		$this->db->where('comments.'.$qualifier, $options[$qualifier]);
+    	}
+
+    	// If limit / offset are declared (usually for pagination) 
+    	// then we need to take them into account
+    	if(isset($options['limit']) && isset($options['offset'])) 
+    		$this->db->limit($options['limit'], $options['offset']);
+    	else if(isset($options['limit'])) $this->db->limit($options['limit']);
+
+    	// sort
+    	if(isset($options['sortBy'])) 
+    		$this->db->order_by($options['sortBy'], $options['sortDirection']);
+		
+		$this->db->join('users', 'users.id = comments.uid');
+    	$query = $this->db->get('comments');
+    	if($query->num_rows() == 0) return false;
+   
+        return $query->result();
+	}
+
+	function addComment($options = array()){
+		if(!$this->_required(array('cid', 'comment', 'uid'), $options))	return false;
+
+		$this->db->set('uid', $options['uid']);
+    	$this->db->set('cid', $options['cid']);
+    	$this->db->set('comment', $options['comment']);
+    	$this->db->set('lastmod', date("Y-m-d H:i:s"));
+    	
+    	$this->db->insert('comments');
+    	
+    	return $this->db->insert_id();
+	}
 }
 ?>

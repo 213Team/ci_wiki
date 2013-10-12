@@ -64,7 +64,7 @@ class Body_Model extends CI_Model {
 
 		$this->db->set('cid', $options['cid']);
     	$this->db->set('body', $options['body']);
-    	$this->db->set('lastmod', date("Y-m-d H:m:s"));
+    	$this->db->set('lastmod', date("Y-m-d H:i:s"));
     	
     	$this->db->insert('body');
     	
@@ -86,7 +86,7 @@ class Body_Model extends CI_Model {
         		$this->db->set($qualifier, $options[$qualifier]);
 	    }
 	    
-	    $this->db->set('lastmod', date("Y-m-d H:m:s"));
+	    $this->db->set('lastmod', date("Y-m-d H:i:s"));
 	    $this->db->where('cid', $options['cid']);
 	    
 

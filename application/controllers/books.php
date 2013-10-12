@@ -38,7 +38,7 @@ class Books extends CI_Controller {
 			redirect('books');
 		
 		$tmp = $this->catalog_model->getCatalog(array("bookid"=>$bookid));
-		if($cid == -1)
+		if($cid == -1 && $tmp)
 			$cid = $tmp[0]->id;
 		$data['cid'] = $cid;
 		$data['bookid'] = $bookid;
@@ -55,10 +55,29 @@ class Books extends CI_Controller {
 		}
 		}
 		
+		$this->load->model("comment_model");
+		$data['comments'] = $this->comment_model->getComments(array('cid'=>$cid));
+		
 		$this->load->view('header', $data);
 		$this->load->view('sidebar');
 		$this->load->view('view');
 		$this->load->view('footer');
+	}
+	
+	function doaddcomment($bookid, $cid){
+		if(!isset($bookid) || !isset($cid) || $cid == -1)
+			redirect('books');
+		if($this->session->userdata('user') == false)
+    		redirect('usercenter/login');
+    	
+    	$this->load->model('catalog_model');
+    	if(!$this->catalog_model->getCatalog(array("bookid"=>$bookid, 'id'=>$cid)))
+    		redirect('books');
+    	
+    	$this->load->model('comment_model');
+    	$this->comment_model->addComment(array('cid'=>$cid, 'uid'=>$this->session->userdata('user')['uid'], 'comment'=>$this->input->post('comment',true)));
+    	
+    	redirect("books/view/{$bookid}/{$cid}");
 	}
 	
 	function generatePDF($bookid){

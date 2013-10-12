@@ -4,6 +4,7 @@ class Book_Model extends CI_Model {
     function __construct() {
         parent::__construct();
         $this->load->model('catalog_model');
+        $this->load->model('checkpoint_model');
     }
     
     function _required($required, $data){
@@ -54,7 +55,7 @@ class Book_Model extends CI_Model {
 
 		$this->db->set('uid', $options['uid']);
     	$this->db->set('title', $options['title']);
-    	$this->db->set('lastmod', date("Y-m-d H:m:s"));
+    	$this->db->set('lastmod', date("Y-m-d H:i:s"));
     	
     	$this->db->insert('books');
     	
@@ -72,7 +73,7 @@ class Book_Model extends CI_Model {
         		$this->db->set($qualifier, $options[$qualifier]);
 	    }
 	    
-	    $this->db->set('lastmod', date("Y-m-d H:m:s"));
+	    $this->db->set('lastmod', date("Y-m-d H:i:s"));
 	    $this->db->where('id', $options['id']);
 	    
 
@@ -88,6 +89,7 @@ class Book_Model extends CI_Model {
 		if($this->getBooks(array('uid' => $options['uid'], 'id' => $options['id'])) == false) return false;
 
 		$this->catalog_model->deleteCatalog(array('bookid'=>$options['id'], 'uid'=>$options['uid']));
+		$this->checkpoint_model->deleteCheckpoint(array('bid'=>$options['id']));
     	$this->db->where('id', $options['id']);
     	$this->db->delete('books');
     	return true;
