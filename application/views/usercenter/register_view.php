@@ -14,7 +14,7 @@
 		<div class="form-group">
     		<label for="name" class="col-sm-2 control-label">用户名</label>
     		<div class="col-sm-10">
-    		<input type="text" class="form-control" id="username" name="username" placeholder="Username">
+			<input type="text" class="form-control" id="username" name="username" placeholder="Username" value="<?php if(isset($olduser)) echo $olduser['oldname']; ?> ">
     		</div>
   		</div>
 		<div class="form-group">
@@ -32,7 +32,7 @@
   		<div class="form-group">
     		<label for="email" class="col-sm-2 control-label">Email</label>
     		<div class="col-sm-10">
-    		<input type="email" class="form-control" id="email" name="email" placeholder="Email">
+			<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php if(isset($olduser)) echo $olduser['oldemail']; ?> ">
     		</div>
   		</div>
   		 <div class="form-group">
